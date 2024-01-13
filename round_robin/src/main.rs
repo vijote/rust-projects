@@ -1,15 +1,26 @@
+use std::io;
 fn main() {
-    let tup: (u8, u8, u8) = (1, 2, 3);
+    let servers: [u8; 3] = [1, 2, 3];
 
-    let mut count = 0u32;
+    let mut user_input = String::new();
+
+    let mut current_server = 0usize;
 
     loop {
-        count += 1;        
+        println!("Please type a new request");
+        let request = io::stdin().read_line(&mut user_input);
 
-        println!("current item is: {}", tup.0);
+        match request {
+            Ok(input) => input,
+            Err(_) => continue,
+        };
 
-        if count >= 10 {
-            break;
-        }
+        println!("Request sent to server: {}", servers[current_server]);
+
+        current_server = if current_server < servers.len() - 1 {
+            current_server + 1
+        } else {
+            0
+        };
     }
 }
